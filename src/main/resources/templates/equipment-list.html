@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Equipment-list</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div>
+    <div class="welcome">
+        <!--<p>Welcome, <span class="username" th:text="${name}">username </span></p>-->
+        <span>Welcome, <span class="username" th:text="${session.user.username}">username </span></span></br>
+        <a th:href="@{/logout}">Logout</a>
+    </div>
+    <h1>Student-list</h1>
+    <form th:action="@{/equipments}" method="get">
+        <input placeholder="Search by name" type="text" name="keyword">
+        <button type="submit">Search</button>
+    </form>
+    <!--        Thông báo lỗi khi không đúng role khi cố tình gõ link trực tiếp-->
+    <span class="errRole" th:if="${errRole!=null}" th:text="${errRole}"></span>
+    <a th:href="@{/equipment/add}" th:if="${session.user.role == 1}">Add new equipment</a>
+    <a th:href="@{/equipment/advance}" th:if="${session.user.role == 1}">Advance Analytic</a>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Purchase Price</th>
+            <th>Quantity Available</th>
+            <th>Type Name</th>
+            <th th:if="${session.user.role==1}">Action</th>
+            <th>Purchase Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--${studentList}: chính là attributeName trong model-->
+        <tr th:each="s : ${equipmentList}">
+            <td th:text = "${s.equipmentId}"></td>
+            <td th:text = "${s.equipmentName}"></td>
+            <td th:text = "${s.purchasePrice}"></td>
+            <td th:text = "${s.quantityAvailable}"></td>
+            <td th:text = "${s.equipmentType.typeName}"></td>
+            <td th:if="${session.user.role == 1}">
+                <a th:href="@{'/equipment/edit/' + ${s.equipmentId}}">Edit</a>
+                <a th:href="@{'/equipment/delete/' + ${s.equipmentId}}"
+                   onclick="return confirm('Are you sure you want to delete this equipment?')"
+                   >| Delete</a>
+            </td>
+            <td th:text="${#temporals.format(s.purchaseDate, 'dd/MM/yyyy HH:mm:ss')}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

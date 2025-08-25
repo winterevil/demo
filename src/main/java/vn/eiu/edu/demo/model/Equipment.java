@@ -32,12 +32,12 @@ public class Equipment {
     @Max(value = 500, message = "Quantity must be to 500")
     private int quantityAvailable;
 
-    @CreatedDate
-    private LocalDateTime purchaseDate;
-
     @ManyToOne
     @JoinColumn(name = "EquipmentTypeId")
     private EquipmentType equipmentType;
+
+    @CreatedDate
+    private LocalDateTime purchaseDate;
 
     public Equipment(String equipmentId, String equipmentName, double purchasePrice, int quantityAvailable){
         this.equipmentId = equipmentId;

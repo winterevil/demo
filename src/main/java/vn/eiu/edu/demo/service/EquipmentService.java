@@ -39,4 +39,5 @@ public class EquipmentService {
     public boolean checkExistById(String equipmentId){
         return equipmentRepo.existsById(equipmentId);
     }
+
 }
